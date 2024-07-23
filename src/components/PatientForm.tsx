@@ -5,31 +5,35 @@ import { usePatientStore } from "../store/store";
 import { useEffect } from "react";
 
 export const PatientForm = () => {
-  const { addPatient, activeId, patients } = usePatientStore();
+  const { addPatient, activeId, patients, updatePatient } = usePatientStore();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    setValue
+    setValue,
   } = useForm<DraftPatient>();
 
   useEffect(() => {
     if (activeId) {
-      const activePatient = patients.filter(patient=> patient.id === activeId)[0];
+      const activePatient = patients.filter(
+        (patient) => patient.id === activeId
+      )[0];
       setValue("name", activePatient.name);
       setValue("caretaker", activePatient.caretaker);
       setValue("email", activePatient.email);
       setValue("date", activePatient.date);
       setValue("symptoms", activePatient.symptoms);
-
-
     }
   }, [activeId]);
 
   const registerPatient = (data: DraftPatient) => {
-    addPatient(data);
+    if (activeId) {
+      updatePatient(data);
+    } else {
+      addPatient(data);
+    }
     reset();
   };
 
