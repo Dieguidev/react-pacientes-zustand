@@ -1,3 +1,4 @@
+import {toast} from 'react-toastify'
 import { useForm } from "react-hook-form";
 import { Error } from "./Error";
 import { DraftPatient } from "../types";
@@ -33,6 +34,7 @@ export const PatientForm = () => {
       updatePatient(data);
     } else {
       addPatient(data);
+      toast.success('Paciente registrado correctamente')
     }
     reset();
   };
